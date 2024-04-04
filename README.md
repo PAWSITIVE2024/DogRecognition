@@ -9,4 +9,5 @@
 known_face에 넣을 사진은 되도록이면 표정이 없는 정면 사진. 옆면은 인지불가.
 
 ![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/fae538e4-20e2-4d0f-ad45-bd41d854224f)
-![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/7e98fcd9-c29d-4adf-bace-f910babf520b)
+![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/7e98fcd9-c29d-4adf-bace-f910babf520b) ![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/8540347f-f131-44d6-a2b2-b8b3a4cf0467)
+
