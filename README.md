@@ -19,3 +19,5 @@ known_face에 넣을 사진은 되도록이면 표정이 없는 정면 사진. �
     python dog_facial_recognition.py
 
 실행시 저장했던 npy에서 특징점 불러와서 현재 사진과 비교 후, 판단.
+![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/e7d7584d-d56c-45b9-a99e-fa861dd1420f)
+
