@@ -4,10 +4,18 @@
 
 원본 사진으로 진행시 GPU 8GB이상 필요
 
-사진을 resize해서 GPU 0.5GB까지 줄이기 성공
+사진을 resize해서 GPU 0.2GB까지 줄이기 성공 target_width으로 조절 가능
 
 known_face에 넣을 사진은 되도록이면 표정이 없는 정면 사진. 옆면은 인지불가.
 
-![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/fae538e4-20e2-4d0f-ad45-bd41d854224f)
-![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/7e98fcd9-c29d-4adf-bace-f910babf520b) ![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/8540347f-f131-44d6-a2b2-b8b3a4cf0467)
+    python find_dog_face.py 
 
+실행시 강아지 얼굴 찾는 기능만 지원
+
+    python add_dog_face.py
+
+실행시, 내가 넣어준 사진과 이름을 기억하고 이 특징점을 npy파일로 저장
+
+    python dog_facial_recognition.py
+
+실행시 저장했던 npy에서 특징점 불러와서 현재 사진과 비교 후, 판단.
