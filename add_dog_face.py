@@ -55,7 +55,7 @@ def draw_label(input_image, coordinates, label):
     image = input_image.copy()
     (top, right, bottom, left) = coordinates
     cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 5)
-    cv2.putText(image, label, (left - 10, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 255, 0), 3)
+    cv2.putText(image, label, (left - 10, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 3)
     return image
 
 def main():

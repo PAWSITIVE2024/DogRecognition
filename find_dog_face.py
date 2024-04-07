@@ -24,29 +24,21 @@ class Find_dog_face:
         gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         dets = detector(gray_image, 1)
         print('Found {} faces.'.format(len(dets)))
-        # 전체 이미지에서 찾은 얼굴 영역을 담을 리스트
         face_images = []
         for (i, det) in enumerate(dets):
-            # 얼굴 영역의 얼굴 랜드마크를 결정한 다음 좌표를 npy로 변환
             shape = predictor(gray_image, det.rect)
             shape = face_utils.shape_to_np(shape)
-
-            # dlib의 사각형을 OpenCV bounding box로 변환(x, y, w, h)
             (x, y, w, h) = face_utils.rect_to_bb(det.rect)
-            
-            # 얼굴 부분만 추출하여 리스트에 추가
             face_images.append(image[y:y+h, x:x+w].copy())
 
             cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            cv2.putText(image, "Face #{}".format(i + 1), (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+            cv2.putText(image, "Face #{}".format(i + 1), (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
             if debug:
-                # 얼굴 랜드마크에 포인트를 그립니다.
                 for (i, (x, y)) in enumerate(shape):
                     cv2.circle(image, (x, y), int(image.shape[1]/250), (0, 0, 255), -1)
-                    # cv2.putText(image, str(i + 1), (x - 10, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.2, (255, 255, 255), 1)
-
-        # self.plt_imshow(["Original", "Find Faces"], [image, image], figsize=(16,10), result_name='find_face.jpg')
+                    
+        self.plt_imshow(["Original", "Find Faces"], [image, image], figsize=(16,10), result_name='find_face.jpg')
         return face_images
     
     def resize_image(self, image_path, target_width=200):
