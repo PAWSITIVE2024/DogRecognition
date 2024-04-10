@@ -9,8 +9,8 @@ from add_dog_face import Add_dog_face
 import face_recognition
 import time
 
-face_landmark_detector_path = 'dogHeadDetector.dat'
-face_landmark_predictor_path = 'landmarkDetector.dat'
+face_landmark_detector_path = 'library/dogHeadDetector.dat'
+face_landmark_predictor_path = 'library/landmarkDetector.dat'
 
 detector = dlib.cnn_face_detection_model_v1(face_landmark_detector_path)
 predictor = dlib.shape_predictor(face_landmark_predictor_path)
@@ -19,8 +19,8 @@ image_path = 'images/song_coco10.jpg'
 
 class Dog_facial_recognition:
     def __init__(self):
-        self.known_face_encodings = np.load('known_faces.npy')
-        self.known_face_names = np.load('known_names.npy')
+        self.known_face_encodings = np.load('numpy/known_faces.npy')
+        self.known_face_names = np.load('numpy/known_names.npy')
     
     def detection(self, image_path, size=None):
         finding = Find_dog_face()

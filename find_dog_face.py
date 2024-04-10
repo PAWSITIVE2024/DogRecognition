@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import face_recognition
 import time
 
-face_landmark_detector_path = 'dogHeadDetector.dat'
-face_landmark_predictor_path = 'landmarkDetector.dat'
+face_landmark_detector_path = 'library/dogHeadDetector.dat'
+face_landmark_predictor_path = 'library/landmarkDetector.dat'
 
 detector = dlib.cnn_face_detection_model_v1(face_landmark_detector_path)
 predictor = dlib.shape_predictor(face_landmark_predictor_path)
