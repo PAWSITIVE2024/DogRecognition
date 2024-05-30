@@ -3,6 +3,7 @@ import numpy as np
 from link_with_firebase import Link_firebase
 from add_dog_face import Add_dog_face
 from facial_recognition_for_dogs import Dog_facial_recognition
+from bluetooth import BluetoothServer
 
 class Run:
     def __init__(self):
