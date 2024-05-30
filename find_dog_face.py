@@ -36,7 +36,7 @@ class Find_dog_face:
 
             if debug:
                 for (i, (x, y)) in enumerate(shape):
-                    cv2.circle(image, (x, y), int(image.shape[1]/250), (0, 0, 255), -1)
+                    cv2.circle(image, (x, y), int(image.shape[1]/250), (0, 0, 255), 3)
                     
         self.plt_imshow(["Original", "Find Faces"], [image, image], figsize=(16,10), result_name='find_face.jpg')
         return face_images

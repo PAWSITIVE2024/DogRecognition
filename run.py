@@ -8,13 +8,18 @@ class Run:
     def __init__(self):
         self.step = 0
         self.POWER_OFF = False
+        self.Process_Done = False
     
     def run(self):
         if self.step == 0:
+            # 여기서 안드로이드랑 연결하는 코드 계속 돌림..
+            # 연결되면 그거 user_id로 선언하고 loop 종료
             # get userID from android
             user_id = '9OccDgcNSbcOl2limdvnFtcAb4E2'
             self.step += 1
         elif self.step == 1:
+            # user_id랑 맞는 firebase에 연결..
+            # 폴더 자동 생성 및 이미지 저장
             link_firebase = Link_firebase(user_id)
             link_firebase.save_image()
             dog_name = link_firebase.get_name()
@@ -35,6 +40,10 @@ class Run:
                 self.step += 1
             # 여기까지가 사전작업
         elif self.step == 3:
+            # 버튼 눌릴때까지 대기하기.
+            # self.step += 1
+            pass
+        elif self.step == 4:
             # 알고 있는 얼굴 찾기
             known_face_encodings = np.load('numpy/known_faces.npy')
             known_face_names = np.load('numpy/known_names.npy')
@@ -42,6 +51,10 @@ class Run:
             if detection.detected_name != None:
                 detected_name = detection.detected_name
             # 안드로이드로 보내기.
+            if self.Process_Done == True:
+                self.step == 3
+                self.Process_Done == False
+
                 
         
 def main():
