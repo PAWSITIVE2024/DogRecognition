@@ -15,9 +15,9 @@ detector = dlib.cnn_face_detection_model_v1(face_landmark_detector_path)
 predictor = dlib.shape_predictor(face_landmark_predictor_path)
 
 class Dog_facial_recognition:
-    def __init__(self, known_face_encodings, known_face_names):
-        self.known_face_encodings = known_face_encodings
-        self.known_face_names = known_face_names
+    def __init__(self):
+        self.known_face_encodings = np.load('numpy/known_faces.npy')
+        self.known_face_names = np.load('numpy/known_names.npy')
         self.current_name = None
         self.possible_names = set(self.known_face_names)
         self.counts = {name : 0 for name in self.possible_names}
@@ -115,9 +115,7 @@ class Dog_facial_recognition:
         return [_trim_css_to_bounds(_rect_to_css(face.rect), img.shape) for face in raw_locations]
 
 def main():
-    known_face_encodings = np.load('numpy/known_faces.npy')
-    known_face_names = np.load('numpy/known_names.npy')
-    detect = Dog_facial_recognition(known_face_encodings, known_face_names)
+    detect = Dog_facial_recognition()
     detect.detection()
 
 if __name__ == '__main__':

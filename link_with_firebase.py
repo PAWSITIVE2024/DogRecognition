@@ -26,8 +26,7 @@ class Link_firebase:
                     profile_images = pet_info['profile']
                     
                     for i, (key, profile_image_url) in enumerate(profile_images.items()):
-                        # 파일 이름을 변경하여 다운로드합니다.
-                        image_name = f"profile_image_{i}.jpg"
+                        image_name = f"image_{i}.jpg"
                         image_path = os.path.join(pet_folder, image_name)
                         print(f"Downloading {profile_image_url} to {image_path}")
                         with urllib.request.urlopen(profile_image_url) as response, open(image_path, 'wb') as out_file:

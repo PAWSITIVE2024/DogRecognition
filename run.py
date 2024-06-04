@@ -31,19 +31,11 @@ class Run:
             if link_firebase.downloading_done:
                 self.step += 1
         elif self.step == 2:
-            # 이 부분 구상 다시 하기... 지금은 머리가 안돌아감...
             # 저장된 이미지 폴더에서 사진 찾아서 학습돌리기.
-            image_folder = os.path.join(user_id, "images")
-            face_paths = []
-            for filename in os.listdir(image_folder):
-                if filename.endswith((".jpg", ".jpeg", ".png")):
-                    face_paths.append(os.path.join(image_folder, filename))
-            adding = Add_dog_face()
-            for face_path in face_paths:
-                adding.add_known_face(face_path)
+            adding = Add_dog_face(user_id)
+            adding.add_known_face()
             if adding.DONE == True:
                 self.step += 1
-            # 여기까지가 사전작업
             
         elif self.step == 3:
             # firebase에서 DoggyDine/UserAccount/../Detected/Start 값이 True가 되면 step 4로 넘어가기.
@@ -55,8 +47,6 @@ class Run:
                 
         elif self.step == 4:
             # 알고 있는 얼굴 찾기
-            known_face_encodings = np.load('numpy/known_faces.npy')
-            known_face_names = np.load('numpy/known_names.npy')
             detection = Dog_facial_recognition()
             if detection.detected_name != None:
                 detected_name = detection.detected_name

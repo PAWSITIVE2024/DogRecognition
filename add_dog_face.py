@@ -1,3 +1,4 @@
+import os
 import cv2
 import dlib
 import imutils
@@ -17,13 +18,30 @@ predictor = dlib.shape_predictor(face_landmark_predictor_path)
 known_face = [(("images/coco1.jpg", "images/coco2.jpeg", "images/coco6.jpg", "images/coco12.jpg", "images/coco7.jpg"), "coco"),
               (("images/song2.jpg", "images/song4.jpg", "images/song5.jpg", "images/song7.jpg", "images/song9.jpg"), "song")]
 class Add_dog_face:
-    def __init__(self):
+    def __init__(self, user_id):
+        self.user_id = user_id
         self.known_face_encodings = []   
         self.known_face_names = []
         self.face_specifics = []
         self.DONE = False
     
-    def add_known_face(self, known_face):
+    def get_images(self):
+        user_folder = os.path.join('firebase', self.user_id)
+        known_faces = []
+        
+        if os.path.exists(user_folder):
+            pets = os.listdir(user_folder)
+            for pet in pets:
+                pet_folder = os.path.join(user_folder, pet)
+                if os.path.isdir(pet_folder):
+                    images = [os.path.join(pet_folder, file) for file in os.listdir(pet_folder) if file.endswith(('.jpg', '.jpeg', '.png'))]
+                    if images:
+                        known_faces.append((tuple(images), pet))
+        print(known_faces)
+        return known_faces
+    
+    def add_known_face(self):
+        known_face = self.get_images()
         Finding = Find_dog_face()
         target_width = 200
         name_len = len(known_face)
@@ -72,8 +90,9 @@ def draw_label(input_image, coordinates, label):
     return image
 
 def main():
-    adding = Add_dog_face()
-    adding.add_known_face(known_face)
+    user_id = 'TDQvhGXWwQcsFWrJ0wmnTS38d602'
+    adding = Add_dog_face(user_id)
+    adding.add_known_face()
     
 if __name__ == '__main__':
     main()
