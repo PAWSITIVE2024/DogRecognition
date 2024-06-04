@@ -5,8 +5,8 @@ import face_recognition
 import numpy as np
 from find_dog_face import Find_dog_face
 
-video_path = 'images/song2.mp4'
-output_path = 'results/song2.mp4'
+# video_path = 'images/song2.mp4'
+# output_path = 'results/song2.mp4'
 
 face_landmark_detector_path = 'library/dogHeadDetector.dat'
 face_landmark_predictor_path = 'library/landmarkDetector.dat'
@@ -23,30 +23,43 @@ class Dog_facial_recognition:
         self.counts = {name : 0 for name in self.possible_names}
         self.detected_name = None
     
-    def detection(self, video_path, output_path):
+    def detection(self):
+        cap = cv2.VideoCapture(0)
+        cap.set(3, 640) # set Width
+        cap.set(4, 480) # set Height
+
         finding = Find_dog_face()
         
-        cap = cv2.VideoCapture(video_path)
-        if not cap.isOpened():
-            print("Error: Couldn't open the video.")
-            return
-        
-        frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        fps = int(cap.get(cv2.CAP_PROP_FPS))
-        out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (frame_width, frame_height))
-
-        while cap.isOpened():
+        while True:
             ret, frame = cap.read()
             if not ret:
                 break
             
             processed_frame = self.process_frame(frame)
-            out.write(processed_frame)
+            
+            cv2.imshow('Dog Facial Recognition', processed_frame)
+            
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
 
         cap.release()
-        out.release()
-        cv2.destroyAllWindows()
+        
+        # frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        # frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        # fps = int(cap.get(cv2.CAP_PROP_FPS))
+        # out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (frame_width, frame_height))
+
+        # while cap.isOpened():
+        #     ret, frame = cap.read()
+        #     if not ret:
+        #         break
+            
+        #     processed_frame = self.process_frame(frame)
+        #     out.write(processed_frame)
+
+        # cap.release()
+        # out.release()
+        # cv2.destroyAllWindows()
 
     def process_frame(self, frame):
         dets_locations = self.face_locations(frame)
@@ -105,7 +118,7 @@ def main():
     known_face_encodings = np.load('numpy/known_faces.npy')
     known_face_names = np.load('numpy/known_names.npy')
     detect = Dog_facial_recognition(known_face_encodings, known_face_names)
-    detect.detection(video_path, output_path)
+    detect.detection()
 
 if __name__ == '__main__':
     main()
