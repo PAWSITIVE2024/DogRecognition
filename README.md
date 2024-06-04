@@ -11,6 +11,8 @@ known_face에 넣을 사진은 되도록이면 표정이 없는 정면 사진. �
     python find_dog_face.py 
 
 실행시 강아지 얼굴 찾는 기능만 지원
+![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/ddcae758-76a9-4500-b410-9183ed921f57)
+
 
     python add_dog_face.py
 
