@@ -67,6 +67,7 @@ class Add_dog_face:
             self.face_specifics.append(face_specific)
         np.save('numpy/known_faces.npy', self.known_face_encodings)
         np.save('numpy/known_names.npy', self.known_face_names)
+        self.DONE == True
 
 def _trim_css_to_bounds(css, image_shape):
     return max(css[0], 0), min(css[1], image_shape[1]), min(css[2], image_shape[0]), max(css[3], 0)

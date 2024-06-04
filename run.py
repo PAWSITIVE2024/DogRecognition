@@ -23,22 +23,19 @@ class Run:
                 time.sleep(1)
             self.step += 1
         elif self.step == 1:
-            # user_id랑 맞는 firebase에 연결..
-            # 폴더 자동 생성 및 이미지 저장
+            # firebase에서 이미지 저장하기
             link_firebase = Link_firebase(user_id)
             link_firebase.save_image()
-            dog_name = link_firebase.get_name()
             if link_firebase.downloading_done:
                 self.step += 1
         elif self.step == 2:
             # 저장된 이미지 폴더에서 사진 찾아서 학습돌리기.
             adding = Add_dog_face(user_id)
             adding.add_known_face()
-            if adding.DONE == True:
+            if adding.DONE:
                 self.step += 1
-            
         elif self.step == 3:
-            # firebase에서 DoggyDine/UserAccount/../Detected/Start 값이 True가 되면 step 4로 넘어가기.
+            # firebase에서 DoggyDine/UserAccount/user_id/Detected/Start 값이 True가 되면 step 4로 넘어가기.
             # 버튼 눌릴때까지 대기하기.
             # self.step += 1
             link_firebase = Link_firebase(self.user_id)
