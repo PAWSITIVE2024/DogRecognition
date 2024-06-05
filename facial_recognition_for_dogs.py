@@ -1,8 +1,9 @@
 # 영상에서 강아지 구분하기
 import cv2
 import dlib
-import face_recognition
 import numpy as np
+import face_recognition
+from picamera import PiCamera 
 from find_dog_face import Find_dog_face
 
 # video_path = 'images/song2.mp4'
@@ -13,6 +14,12 @@ face_landmark_predictor_path = 'library/landmarkDetector.dat'
 
 detector = dlib.cnn_face_detection_model_v1(face_landmark_detector_path)
 predictor = dlib.shape_predictor(face_landmark_predictor_path)
+
+camera = PiCamera()        
+
+camera.start_preview()            
+camera.capture('/home/pi/test.jpg')       
+camera.stop_preview() 
 
 class Dog_facial_recognition:
     def __init__(self):
@@ -34,11 +41,9 @@ class Dog_facial_recognition:
             ret, frame = cap.read()
             if not ret:
                 break
-            
             processed_frame = self.process_frame(frame)
-            
             cv2.imshow('Dog Facial Recognition', processed_frame)
-            
+
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
