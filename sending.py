@@ -22,17 +22,20 @@ class Sending:
         blob.make_public()
         return blob.public_url
 
-    def sending(self):
+    def sending(self, detected_name):
         file_path = 'test.jpg'
         storage_file_path = f'{self.user_id}/profile/detected.png'
         public_url = self.upload_image(file_path, storage_file_path)
         self.doggydine_ref.child(f'{self.user_id}').update({'profile': public_url})
+        self.doggydine_ref.child(f'{self.user_id}').child('Detected').update({'Detected_name' : detected_name})
+        self.doggydine_ref.child(f'{self.user_id}').child('Detected').update({'start' : False})
         print(f"Image uploaded and URL saved to database: {public_url}")
 
 def main():
     user_id = 'TDQvhGXWwQcsFWrJ0wmnTS38d602'
+    detected_name = '은총'
     sending_instance = Sending(user_id)
-    sending_instance.sending()
+    sending_instance.sending(detected_name)
 
 if __name__ == '__main__':
     main()
