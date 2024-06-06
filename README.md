@@ -5,6 +5,10 @@
 
 **강아지 얼굴에서 특징점을 찾고 이를 기억해서 누가 누구인지 판단하는 알고리즘**
 
+필요 라이브러리 설치
+
+    pip install -r requirements.txt
+
 전체적인 Flow Chart
 
 ![통신 (1)](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/4f89391e-0f0e-4d09-afb0-de9125fea470)
