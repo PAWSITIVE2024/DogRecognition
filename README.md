@@ -1,11 +1,12 @@
+<div align=center>
+  
+
 # 🐶강아지 얼굴 인식 및 구별
 
 **강아지 얼굴에서 특징점을 찾고 이를 기억해서 누가 누구인지 판단하는 알고리즘**
 
 전체적인 Flow Chart
 
-<div align=center>
-  
 ![통신 (1)](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/4f89391e-0f0e-4d09-afb0-de9125fea470)
 
 원본 사진으로 진행시 GPU 8GB이상 필요
@@ -17,8 +18,6 @@ known_face에 넣을 사진은 되도록이면 표정이 없는 정면 사진. �
     python find_dog_face.py 
 
 실행시 강아지 얼굴 찾는 기능만 지원
-
-<div align=center>
   
 ![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/ddcae758-76a9-4500-b410-9183ed921f57)
 
@@ -30,8 +29,6 @@ known_face에 넣을 사진은 되도록이면 표정이 없는 정면 사진. �
     python dog_facial_recognition.py
 
 실행시 저장했던 npy에서 특징점 불러와서 현재 사진과 비교 후, 판단.
-
-<div align=center>
   
 ![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/e7d7584d-d56c-45b9-a99e-fa861dd1420f)
 
