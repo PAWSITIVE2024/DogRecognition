@@ -9,10 +9,6 @@
 
     pip install -r requirements.txt
 
-전체적인 Flow Chart
-
-![통신 (1)](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/4f89391e-0f0e-4d09-afb0-de9125fea470)
-
 원본 사진으로 진행시 GPU 8GB이상 필요
 
 사진을 resize해서 GPU 0.2GB까지 줄이기 성공 target_width으로 조절 가능
@@ -23,7 +19,8 @@ known_face에 넣을 사진은 되도록이면 표정이 없는 정면 사진. �
 
 실행시 강아지 얼굴 찾는 기능만 지원
   
-![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/ddcae758-76a9-4500-b410-9183ed921f57)
+![image](https://github.com/PAWSITIVE2024/DogRecognition/assets/123616936/e30ff46d-7964-48d7-90d4-3e692b1df088)
+
 
 
     python add_dog_face.py
@@ -36,9 +33,13 @@ known_face에 넣을 사진은 되도록이면 표정이 없는 정면 사진. �
   
 ![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/e7d7584d-d56c-45b9-a99e-fa861dd1420f)
 
-    python sending.py
+    python run.py
 
-실행시 인식한 이미지와 이름 DB에 업데이트
+실행시 인식한 안드로이드 통신부터 학습, 인지판단, 결과 송신까지 자동으로 진행
+
+전체적인 Flow Chart
+
+![통신 (1)](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/4f89391e-0f0e-4d09-afb0-de9125fea470)
 
 
 
