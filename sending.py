@@ -15,6 +15,7 @@ class Sending:
             })
         self.doggydine_ref = db.reference('/DoggyDine/UserAccount')
         self.bucket = storage.bucket()
+        self.process_done == False
 
     def upload_image(self, local_file_path, storage_file_path):
         blob = self.bucket.blob(storage_file_path)
@@ -30,6 +31,7 @@ class Sending:
         self.doggydine_ref.child(f'{self.user_id}').child('Detected').update({'Detected_name' : detected_name})
         self.doggydine_ref.child(f'{self.user_id}').child('Detected').update({'start' : False})
         print(f"Image uploaded and URL saved to database: {public_url}")
+        self.process_done == True
 
 def main():
     user_id = 'TDQvhGXWwQcsFWrJ0wmnTS38d602'

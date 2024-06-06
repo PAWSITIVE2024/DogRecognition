@@ -29,6 +29,7 @@ class Dog_facial_recognition:
         self.possible_names = set(self.known_face_names)
         self.counts = {name : 0 for name in self.possible_names}
         self.detected_name = None
+        self.Done == False
     
     def detection(self):
         cap = cv2.VideoCapture(0)
@@ -48,6 +49,7 @@ class Dog_facial_recognition:
                 break
 
         cap.release()
+        self.Done == True
         
         # frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         # frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))

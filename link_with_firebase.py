@@ -12,7 +12,7 @@ class Link_firebase:
         self.user_folder = os.path.join('firebase', self.user_id)
         if not os.path.exists(self.user_folder):
             os.makedirs(self.user_folder)
-        self.downloading_done = False
+        self.Done = False
         
     def save_images(self):
         pets = self.doggydine_ref.child(self.user_id + '/pet/').get()
@@ -32,8 +32,14 @@ class Link_firebase:
                         with urllib.request.urlopen(profile_image_url) as response, open(image_path, 'wb') as out_file:
                             out_file.write(response.read())
                     
-        self.downloading_done = True
+        self.Done = True
     
+    def waiting(self):
+        detected_ref = self.doggydine_ref.child(f"{self.user_id}/Detected/start")
+        start_value = detected_ref.get()
+        if start_value == True:
+            self.Done = True
+            
     def get_names(self):
         pets = self.doggydine_ref.child(self.user_id + '/pet/').get()
         if pets:

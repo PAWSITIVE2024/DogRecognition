@@ -4,6 +4,7 @@ from link_with_firebase import Link_firebase
 from add_dog_face import Add_dog_face
 from facial_recognition_for_dogs import Dog_facial_recognition
 from bluetooth import BluetoothServer
+from Sending import Sending
 
 class Run:
     def __init__(self):
@@ -22,47 +23,36 @@ class Run:
             while self.user_id is None:
                 time.sleep(1)
             self.step += 1
-        elif self.step == 1:
-            # firebase에서 이미지 저장하기
+        elif self.step == 1: # 이미지 저장하기
             link_firebase = Link_firebase(user_id)
             link_firebase.save_image()
-            if link_firebase.downloading_done:
+            if link_firebase.Done:
+                link_firebase.Done == False
                 self.step += 1
-        elif self.step == 2:
-            # 저장된 이미지 폴더에서 사진 찾아서 학습돌리기.
+        elif self.step == 2: # 학습하기
             adding = Add_dog_face(user_id)
             adding.add_known_face()
             if adding.DONE:
                 self.step += 1
-        elif self.step == 3:
-            # firebase에서 DoggyDine/UserAccount/user_id/Detected/Start 값이 True가 되면 step 4로 넘어가기.
-            # 버튼 눌릴때까지 대기하기.
-            # self.step += 1
-            link_firebase = Link_firebase(self.user_id)
-            if link_firebase.is_start_detection():
+        elif self.step == 3: # 기다리기
+            link_firebase.waiting()
+            if link_firebase.Done():
                 self.step += 1
-                
-        elif self.step == 4:
-            # 알고 있는 얼굴 찾기
+        elif self.step == 4: # 얼굴 찾기
             detection = Dog_facial_recognition()
-            if detection.detected_name != None:
-                detected_name = detection.detected_name
-                # 안드로이드로 보내기.
-                # firebase에서 DoggyDine/UserAccount/../Detected/Detected_name에 detected_name 저장하기
-                # firebase에서 DoggyDine/UserAccount/../Detected/Start 값을 다시 False로 바꿔주기
-                link_firebase = Link_firebase(self.user_id)
-                link_firebase.send_detected_name(detected_name)
-                link_firebase.reset_start_detection()
-                self.Process_Done = True
-
-            if self.Process_Done == True:
+            detection.detection()
+            detected_name = detection.detected_name
+            if detection.Done == True:
+                self.step +=1 
+        elif self.step == 5: # 결과 보내기
+            sending = Sending(user_id)
+            sending.sending(detected_name)
+            if sending.process_done == True:
                 self.step == 3
-                self.Process_Done == False
 
     def data_received(self, data):
         # 블루투스를 통해 데이터 수신
         self.user_id = data
-                
         
 def main():
     run = Run()
