@@ -33,6 +33,11 @@ known_face에 넣을 사진은 되도록이면 표정이 없는 정면 사진. �
   
 ![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/e7d7584d-d56c-45b9-a99e-fa861dd1420f)
 
+같은 종, 같은 색의 강아지라도 구별 가능.
+
+![image](https://github.com/PAWSITIVE2024/DogRecognition/assets/123616936/6e2e3205-0956-4eed-b73e-2b7cc8259f51)
+
+
     python run.py
 
 실행시 인식한 안드로이드 통신부터 학습, 인지판단, 결과 송신까지 자동으로 진행
