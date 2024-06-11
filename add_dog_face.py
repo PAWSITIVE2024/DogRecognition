@@ -46,6 +46,7 @@ class Add_dog_face:
         Finding = Find_dog_face()
         target_width = 200
         name_len = len(known_face)
+        print('Training...')
         
         for i in range(name_len):
             face_image_paths = []
@@ -54,11 +55,9 @@ class Add_dog_face:
             face_specific = []
             
             for face_image_path in face_image_paths:
-                print(face_image_path)
                 image = Finding.resize_image(face_image_path, target_width)
                 dets_locations = face_locations(image, 1)
                 face_encodings = face_recognition.face_encodings(image, dets_locations)
-                print('face_encodings', face_encodings)
 
                 for face_encoding, location in zip(face_encodings, dets_locations):
                     detected_face_image = draw_label(image, location, name)

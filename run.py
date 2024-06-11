@@ -13,6 +13,7 @@ class Run:
         self.POWER_OFF = False
         self.Process_Done = False
         self.user_id = None
+        self.detected_name = None
     
     def run(self):
         if self.step == 0: # 블루투스 연결하기
@@ -41,12 +42,12 @@ class Run:
         elif self.step == 4: # 얼굴 찾기
             detection = Dog_facial_recognition()
             detection.detection()
-            detected_name = detection.detected_name
-            if detection.Done == True:
+            self.detected_name = detection.detected_name
+            if detection.Done:
                 self.step +=1 
         elif self.step == 5: # 결과 보내기
             sending = Sending(self.user_id)
-            sending.sending(detected_name)
+            sending.sending(self.detected_name)
             if sending.process_done == True:
                 self.step == 3
         
