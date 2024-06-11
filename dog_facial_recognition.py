@@ -15,7 +15,7 @@ face_landmark_predictor_path = 'library/landmarkDetector.dat'
 detector = dlib.cnn_face_detection_model_v1(face_landmark_detector_path)
 predictor = dlib.shape_predictor(face_landmark_predictor_path)
 
-image_path = 'images/song_coco10.jpg'
+image_path = 'firebase/TDQvhGXWwQcsFWrJ0wmnTS38d602/은총/image_4.jpg'
 
 class Dog_facial_recognition:
     def __init__(self):

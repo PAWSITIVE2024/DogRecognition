@@ -1,25 +1,16 @@
-# 영상에서 강아지 구분하기
 import cv2
 import dlib
 import numpy as np
 import face_recognition
-from picamera import PiCamera 
+import subprocess
 from find_dog_face import Find_dog_face
 
-# video_path = 'images/song2.mp4'
-# output_path = 'results/song2.mp4'
 
 face_landmark_detector_path = 'library/dogHeadDetector.dat'
 face_landmark_predictor_path = 'library/landmarkDetector.dat'
 
 detector = dlib.cnn_face_detection_model_v1(face_landmark_detector_path)
-predictor = dlib.shape_predictor(face_landmark_predictor_path)
-
-camera = PiCamera()        
-
-camera.start_preview()            
-camera.capture('/home/pi/test.jpg')       
-camera.stop_preview() 
+predictor = dlib.shape_predictor(face_landmark_predictor_path)      
 
 class Dog_facial_recognition:
     def __init__(self):
@@ -29,44 +20,33 @@ class Dog_facial_recognition:
         self.possible_names = set(self.known_face_names)
         self.counts = {name : 0 for name in self.possible_names}
         self.detected_name = None
-        self.Done == False
+        self.Done = False
+        
+    def capture_frame(self):
+        result = subprocess.run(['libcamera-jpeg', '-o', '-', '--width', '640', '--height', '480'], capture_output=True)
+        if result.returncode == 0:
+            np_arr = np.frombuffer(result.stdout, np.uint8)
+            frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+            return frame
+        else:
+            print(f"이미지 캡처 실패: {result.stderr}")
+            return None
     
     def detection(self):
-        cap = cv2.VideoCapture(0)
-        cap.set(3, 640) # set Width
-        cap.set(4, 480) # set Height
-
         finding = Find_dog_face()
-        
         while True:
-            ret, frame = cap.read()
-            if not ret:
+            frame = self.capture_frame()
+            print('Detecting')
+
+            if frame is None:
                 break
             processed_frame = self.process_frame(frame)
-            cv2.imshow('Dog Facial Recognition', processed_frame)
-
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
         cap.release()
-        self.Done == True
-        
-        # frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        # frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        # fps = int(cap.get(cv2.CAP_PROP_FPS))
-        # out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (frame_width, frame_height))
-
-        # while cap.isOpened():
-        #     ret, frame = cap.read()
-        #     if not ret:
-        #         break
-            
-        #     processed_frame = self.process_frame(frame)
-        #     out.write(processed_frame)
-
-        # cap.release()
-        # out.release()
-        # cv2.destroyAllWindows()
+        cv2.destroyAllWindows()
+        self.Done = True
 
     def process_frame(self, frame):
         dets_locations = self.face_locations(frame)
@@ -89,12 +69,13 @@ class Dog_facial_recognition:
                 self.counts[name] += 1
                 if self.counts[name] > 30:
                     print(f"{name} 카운트가 넘었습니다.")
+                    print('Detected!!!!!!')
+                    output_path = 'images/result.jpg'
+                    result = subprocess.run(['libcamera-still', '-o', output_path], capture_output=True, text=True)
+                    print(result.stdout)
                     self.counts = {name : 0 for name in self.possible_names}
                     self.detected_name = name
                     
-        # for name, count in self.counts.items():
-        #     print(f"{name}: {count}")
-
         for (top, right, bottom, left), name in zip(dets_locations, face_names):
             if name != "Unknown":
                 color = (0, 255, 0)

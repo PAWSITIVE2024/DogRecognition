@@ -1,4 +1,6 @@
+import subprocess
 import cv2
+import numpy as np
 from pyzbar import pyzbar
 
 class GetName():
@@ -14,23 +16,34 @@ class GetName():
             self.Done = True
         return frame
 
-    def main(self):
-        cap = cv2.VideoCapture(0)
+    def capture_frame(self):
+        # libcamera-jpeg를 사용하여 이미지를 캡처하고 메모리로 읽음
+        result = subprocess.run(['libcamera-jpeg', '-o', '-', '--width', '640', '--height', '480'], capture_output=True)
+        if result.returncode == 0:
+            # 바이트 데이터를 numpy 배열로 변환
+            np_arr = np.frombuffer(result.stdout, np.uint8)
+            # OpenCV를 사용하여 이미지 디코딩
+            frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+            return frame
+        else:
+            print(f"이미지 캡처 실패: {result.stderr}")
+            return None
 
+    def main(self):
+        print('starting')
         while True:
-            ret, frame = cap.read()
-            if not ret:
+            frame = self.capture_frame()
+            if frame is None:
                 break
 
             frame = self.decode_qr_code(frame)
-            cv2.imshow("QR Code Scanner", frame)
+            # cv2.imshow("QR Code Scanner", frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
             if self.user_id:
                 break
 
-        cap.release()
         cv2.destroyAllWindows()
         return self.user_id
 

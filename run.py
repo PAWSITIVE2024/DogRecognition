@@ -4,7 +4,7 @@ from link_with_firebase import Link_firebase
 from add_dog_face import Add_dog_face
 from facial_recognition_for_dogs import Dog_facial_recognition
 from bluetooth import Bluetooth
-from Sending import Sending
+from sending import Sending
 from get_name import GetName
 
 class Run:
@@ -23,19 +23,20 @@ class Run:
             if self.user_id is not None:
                 self.step += 1
         elif self.step == 1: # 이미지 저장하기
-            link_firebase = Link_firebase(user_id)
-            link_firebase.save_image()
+            link_firebase = Link_firebase(self.user_id)
+            link_firebase.save_images()
             if link_firebase.Done:
                 link_firebase.Done == False
                 self.step += 1
         elif self.step == 2: # 학습하기
-            adding = Add_dog_face(user_id)
+            adding = Add_dog_face(self.user_id)
             adding.add_known_face()
             if adding.DONE:
                 self.step += 1
         elif self.step == 3: # 기다리기
+            link_firebase = Link_firebase(self.user_id)
             link_firebase.waiting()
-            if link_firebase.Done():
+            if link_firebase.Done:
                 self.step += 1
         elif self.step == 4: # 얼굴 찾기
             detection = Dog_facial_recognition()
@@ -44,7 +45,7 @@ class Run:
             if detection.Done == True:
                 self.step +=1 
         elif self.step == 5: # 결과 보내기
-            sending = Sending(user_id)
+            sending = Sending(self.user_id)
             sending.sending(detected_name)
             if sending.process_done == True:
                 self.step == 3

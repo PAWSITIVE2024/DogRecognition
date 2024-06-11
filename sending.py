@@ -14,8 +14,8 @@ class Sending:
                 'storageBucket': "doggy-dine.appspot.com"
             })
         self.doggydine_ref = db.reference('/DoggyDine/UserAccount')
-        self.bucket = storage.bucket()
-
+        # 명시적으로 버킷 이름을 지정
+        self.bucket = storage.bucket("doggy-dine.appspot.com")
 
     def upload_image(self, local_file_path, storage_file_path):
         blob = self.bucket.blob(storage_file_path)
@@ -24,7 +24,7 @@ class Sending:
         return blob.public_url
 
     def sending(self, detected_name):
-        file_path = 'test.jpg'
+        file_path = 'images/result.jpg'
         storage_file_path = f'{self.user_id}/profile/detected.png'
         public_url = self.upload_image(file_path, storage_file_path)
         self.doggydine_ref.child(f'{self.user_id}').update({'profile': public_url})
