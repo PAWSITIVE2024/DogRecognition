@@ -5,6 +5,7 @@ from add_dog_face import Add_dog_face
 from facial_recognition_for_dogs import Dog_facial_recognition
 from bluetooth import Bluetooth
 from Sending import Sending
+from get_name import GetName
 
 class Run:
     def __init__(self):
@@ -15,8 +16,10 @@ class Run:
     
     def run(self):
         if self.step == 0: # 블루투스 연결하기
-            bluetooth = Bluetooth()
-            self.user_id = bluetooth.main()
+            receiving = GetName()
+            self.user_id = receiving.main()
+            # bluetooth = Bluetooth()
+            # self.user_id = bluetooth.main()
             if self.user_id is not None:
                 self.step += 1
         elif self.step == 1: # 이미지 저장하기
