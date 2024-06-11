@@ -14,6 +14,7 @@ class Run:
         self.Process_Done = False
         self.user_id = None
         self.detected_name = None
+        self.DONE = False
     
     def run(self):
         if self.step == 0: # 블루투스 연결하기
@@ -48,8 +49,9 @@ class Run:
         elif self.step == 5: # 결과 보내기
             sending = Sending(self.user_id)
             sending.sending(self.detected_name)
-            if sending.process_done == True:
-                self.step == 3
+            if sending.process_done:
+                self.DONE = True
+                self.step = 3
         
 def main():
     run = Run()
