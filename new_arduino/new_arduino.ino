@@ -6,7 +6,7 @@ const int loadCellPinDT = A0; // HX711의 DT핀과 연결된 아두이노 핀 �
 const int loadCellPinSCK = A1; // HX711의 SCK핀과 연결된 아두이노 핀 번호
 const byte I2C_ADDRESS = 0x08; // I2C 주소
 
-float scaleDivide = 100000; // 무게 보정
+float scaleDivide = 90100; // 무게 보정
 
 HX711 scale;
 

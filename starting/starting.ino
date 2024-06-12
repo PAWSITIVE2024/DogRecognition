@@ -7,34 +7,30 @@ const int loadCellPinSCK = A1; // HX711의 SCK핀과 연결된 아두이노 핀 
 const byte I2C_ADDRESS = 0x08; // I2C 주소
 const int buttonPin = 2; // 버튼 핀 번호
 
-float scaleDivide = 100000; // 무게 보정
+float scaleDivide = 90100; // 무게 보정
 
 HX711 scale;
 
 void setup() {
   Serial.begin(9600); // Baud Rate 설정
   Wire.begin(I2C_ADDRESS); // I2C 주소 설정
-  Wire.onRequest(requestEvent); // I2C 요청 이벤트 설정
+  Wire.onRequest(requestEvent); // I2C 요청 이벤트
+  pinMode(buttonPin, INPUT); // 버튼 핀을 입력으로 설정
 
   scale.begin(loadCellPinDT, loadCellPinSCK); // 연결
   scale.set_scale(); // 기본 스케일 값 설정
   scale.tare(); // 처음 시작시 0점 잡기
-
-  pinMode(buttonPin, INPUT); // 버튼 핀을 입력으로 설정
 }
 
 void loop() {
-  // while (digitalRead(buttonPin) == LOW) {
-  // }
-  delay(3000);
-  Serial.println("ButtonPressed");
-  break;
-
-  // 나머지 코드 실행
-  while (true) {
-    // 무게 측정 및 I2C로 데이터 전송
-    delay(1000); // 1초 delay (1초마다 반복)
+  if (digitalRead(buttonPin) == HIGH) {
+    float sign = 5000;
+    byte signBytes[sizeof(float)];
+    memcpy(signBytes, &sign, sizeof(sign));
+    Wire.write(signBytes, sizeof(signBytes));
+    Serial.print("Success");
   }
+  delay(1000); // 1초 delay (1초마다 반복)
 }
 
 void requestEvent() {
