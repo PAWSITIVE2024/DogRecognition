@@ -7,6 +7,8 @@ class GetName():
     def __init__(self):
         self.user_id = None
         self.Done = False
+    def waiting(self):
+
 
     def decode_qr_code(self, frame):
         decoded_objects = pyzbar.decode(frame)
@@ -45,6 +47,12 @@ class GetName():
                 break
 
         cv2.destroyAllWindows()
+        if self.user_id is not None:
+            if not firebase_admin._apps:
+                self.cred = credentials.Certificate('library/doggy-dine-firebase-adminsdk-6tcsx-e66d564d1b.json')
+                firebase_admin.initialize_app(self.cred, {'databaseURL' : "https://doggy-dine-default-rtdb.firebaseio.com/"})
+                self.doggydine_ref = db.reference('/DoggyDine/UserAccount')
+                self.doggydine_ref.child(f'{self.user_id}').update({'QR' : True})
         return self.user_id
 
 def main():
