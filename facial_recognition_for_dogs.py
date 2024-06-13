@@ -67,7 +67,7 @@ class Dog_facial_recognition:
             if name in self.counts:
                 self.counts[name] += 1
                 print(f"{name} detected.")
-                if self.counts[name] > 3:
+                if self.counts[name] > 1:
                     print(f"{name} 카운트가 넘었습니다.")
                     print('Detected!!!!!!')
                     output_path = 'images/result.jpg'
