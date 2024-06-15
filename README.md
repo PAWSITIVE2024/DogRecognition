@@ -9,6 +9,20 @@
 
     pip install -r requirements.txt
 
+Desktop Install
+
+    sudo nano ~/.local/share/application/DoggyDine.desktop
+    
+    [Desktop Entry]
+    Name=Doggy Dine
+    Comment=Run My Python GUI Application
+    Exec=/home/yunjijeong/DogRecognition/run_gui.sh
+    Icon=/home/yunjijeong/DogRecognition/images/final_icon.png
+    Terminal=false
+    Type=Application
+    Encoding=UTF-8
+    Categories=None;
+
 원본 사진으로 진행시 GPU 8GB이상 필요
 
 사진을 resize해서 GPU 0.2GB까지 줄이기 성공 target_width으로 조절 가능
