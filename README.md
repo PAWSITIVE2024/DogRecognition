@@ -12,6 +12,8 @@
 Desktop Install
 
     sudo nano ~/.local/share/application/DoggyDine.desktop
+
+DoggyDine.desktop
     
     [Desktop Entry]
     Name=Doggy Dine
