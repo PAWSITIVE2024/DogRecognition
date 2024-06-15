@@ -35,8 +35,6 @@ class Dog_facial_recognition:
         finding = Find_dog_face()
         while not self.Done:
             frame = self.capture_frame()
-            print('Detecting')
-
             if frame is None:
                 break
             processed_frame = self.process_frame(frame)

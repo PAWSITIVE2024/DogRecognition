@@ -30,8 +30,6 @@ class Link_firebase:
                         for i, (key, profile_image_url) in enumerate(profile_images.items()):
                             image_name = f"image_{i}.jpg"
                             image_path = os.path.join(pet_folder, image_name)
-                            # print(f"Downloading {profile_image_url} to {image_path}")
-                            print('Downloading Images')
                             with urllib.request.urlopen(profile_image_url) as response, open(image_path, 'wb') as out_file:
                                 out_file.write(response.read())
         except Exception as e:

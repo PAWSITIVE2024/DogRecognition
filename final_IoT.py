@@ -6,11 +6,10 @@ import sys
 import firebase_admin
 from firebase_admin import credentials, db
 import urllib.request
-from run import Run
 import struct  # struct 모듈 추가
 
 class Final():
-    def __init__(self):
+    def __init__(self, user_id):
         # 모터설정
         self.dc_motor = Motor(forward=20, backward=21) #pin 38,40
         # Initialize I2C
@@ -18,7 +17,7 @@ class Final():
         self.bus = SMBus(self.bus_number)
         self.arduino_address = 0x08 #pin 3-a4, pin5-a5, gnd-gnd
         
-        self.user_id = None
+        self.user_id = user_id
         self.Done = False
         self.target_weight = None
 
@@ -61,29 +60,25 @@ class Final():
             sleep(1)  # 1초 대기
 
     def run(self):
-        start = Run()
-        while start.POWER_OFF == False:
-            start.run()
-            if start.DONE is True:
-                self.user_id = start.user_id
-                while self.target_weight is None:  # target_weight가 None일 때 계속 대기
-                    copy = self.read_weight_from_sensor()
-                    self.get_target()
-                try:
-                    while True:
-                        actual_weight = self.read_weight_from_sensor()
-                        if actual_weight is not None:
-                            print(f"Actual weight: {actual_weight} grams")
-                            print(f"Target weight: {self.target_weight} grams")  # 디버깅용 로그
-                            if self.target_weight is not None and actual_weight > copy +self.target_weight:
-                                self.rotate_motor_forward()
-                        
-                        sleep(1)  # 1초마다 무게 값 갱신
-                except KeyboardInterrupt:
-                    self.clean_and_exit()
-                except Exception as e:
-                    print(f"An error occurred: {e}")
-                    self.clean_and_exit()
+        while self.target_weight is None:  # target_weight가 None일 때 계속 대기
+            copy = self.read_weight_from_sensor()
+            self.get_target()
+        try:
+            while True:
+                actual_weight = self.read_weight_from_sensor()
+                if actual_weight is not None:
+                    print(f"Actual weight: {actual_weight} grams")
+                    print(f"Target weight: {self.target_weight} grams")  # 디버깅용 로그
+                    if self.target_weight is not None and actual_weight > copy +self.target_weight:
+                        self.rotate_motor_forward()
+                        self.Done = True
+                
+                sleep(1)  # 1초마다 무게 값 갱신
+        except KeyboardInterrupt:
+            self.clean_and_exit()
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            self.clean_and_exit()
 
 def main():
     user_id = 'TDQvhGXWwQcsFWrJ0wmnTS38d602'

@@ -2,13 +2,13 @@ import subprocess
 import cv2
 import numpy as np
 from pyzbar import pyzbar
+import firebase_admin
+from firebase_admin import credentials, db
 
 class GetName():
     def __init__(self):
         self.user_id = None
         self.Done = False
-    def waiting(self):
-
 
     def decode_qr_code(self, frame):
         decoded_objects = pyzbar.decode(frame)
@@ -28,7 +28,6 @@ class GetName():
             frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
             return frame
         else:
-            print(f"이미지 캡처 실패: {result.stderr}")
             return None
 
     def main(self):

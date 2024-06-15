@@ -30,7 +30,6 @@ class Sending:
         self.doggydine_ref.child(f'{self.user_id}').update({'profile': public_url})
         self.doggydine_ref.child(f'{self.user_id}').child('Detected').update({'Detected_name' : detected_name})
         self.doggydine_ref.child(f'{self.user_id}').child('Detected').update({'start' : False})
-        print('Result Sended')
         self.process_done = True
 
 def main():

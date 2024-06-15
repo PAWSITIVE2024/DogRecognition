@@ -37,8 +37,6 @@ class Add_dog_face:
                     images = [os.path.join(pet_folder, file) for file in os.listdir(pet_folder) if file.endswith(('.jpg', '.jpeg', '.png'))]
                     if images:
                         known_faces.append((tuple(images), pet))
-        # print(known_faces)
-        print('Training...')
         return known_faces
     
     def add_known_face(self):
@@ -46,7 +44,6 @@ class Add_dog_face:
         Finding = Find_dog_face()
         target_width = 200
         name_len = len(known_face)
-        print('Training...')
         
         for i in range(name_len):
             face_image_paths = []
