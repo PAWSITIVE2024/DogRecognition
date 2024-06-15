@@ -58,7 +58,7 @@ class MyApp(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('My GUI App')
+        self.setWindowTitle('Doggy Dine')
         self.setGeometry(300, 300, 800, 600)
 
         vbox = QVBoxLayout()
