@@ -1,5 +1,4 @@
 import sys
-import subprocess
 import numpy as np
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QTextEdit, QSpacerItem, QSizePolicy
 from PyQt5.QtGui import QPixmap, QImage
@@ -31,22 +30,18 @@ class CameraFeed(QThread):
     def __init__(self):
         super().__init__()
         self._run_flag = True
+        self.capture = cv2.VideoCapture(0)
 
     def run(self):
-        cmd = ['libcamera-vid', '--inline', '--timeout', '0', '--output', '-', '--codec', 'mjpeg']
-        self.process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
         while self._run_flag:
-            data = self.process.stdout.read(1024*1024)
-            if data:
-                nparr = np.frombuffer(data, np.uint8)
-                image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-                if image is not None:
-                    rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-                    h, w, ch = rgb_image.shape
-                    bytes_per_line = ch * w
-                    convert_to_qt_format = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
-                    self.change_pixmap_signal.emit(convert_to_qt_format)
-        self.process.terminate()
+            ret, frame = self.capture.read()
+            if ret:
+                rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                h, w, ch = rgb_image.shape
+                bytes_per_line = ch * w
+                convert_to_qt_format = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
+                self.change_pixmap_signal.emit(convert_to_qt_format)
+        self.capture.release()
 
     def stop(self):
         self._run_flag = False

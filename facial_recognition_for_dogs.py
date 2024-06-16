@@ -2,7 +2,6 @@ import cv2
 import dlib
 import numpy as np
 import face_recognition
-import subprocess
 from find_dog_face import Find_dog_face
 
 face_landmark_detector_path = 'library/dogHeadDetector.dat'
@@ -17,19 +16,17 @@ class Dog_facial_recognition:
         self.known_face_names = np.load('numpy/known_names.npy')
         self.current_name = None
         self.possible_names = set(self.known_face_names)
-        self.counts = {name : 0 for name in self.possible_names}
+        self.counts = {name: 0 for name in self.possible_names}
         self.detected_name = None
         self.Done = False
+        self.capture = cv2.VideoCapture(0)
 
     def capture_frame(self):
-        result = subprocess.run(['libcamera-jpeg', '-o', '-', '--width', '640', '--height', '480'], capture_output=True)
-        if result.returncode == 0:
-            np_arr = np.frombuffer(result.stdout, np.uint8)
-            frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-            return frame
-        else:
-            print(f"이미지 캡처 실패: {result.stderr}")
+        ret, frame = self.capture.read()
+        if not ret:
+            print("Failed to capture image")
             return None
+        return frame
 
     def detection(self):
         finding = Find_dog_face()
@@ -43,6 +40,7 @@ class Dog_facial_recognition:
                 break
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
+        self.capture.release()
         cv2.destroyAllWindows()
 
     def process_frame(self, frame):
@@ -69,9 +67,8 @@ class Dog_facial_recognition:
                     print(f"{name} 카운트가 넘었습니다.")
                     print('Detected!!!!!!')
                     output_path = 'images/result.jpg'
-                    result = subprocess.run(['libcamera-still', '-o', output_path], capture_output=True, text=True)
-                    print(result.stdout)
-                    self.counts = {name : 0 for name in self.possible_names}
+                    cv2.imwrite(output_path, frame)
+                    self.counts = {name: 0 for name in self.possible_names}
                     self.detected_name = name
         return frame
 
@@ -87,11 +84,10 @@ class Dog_facial_recognition:
 
         raw_locations = _raw_face_locations(img, number_of_times_to_upsample)
         return [_trim_css_to_bounds(_rect_to_css(face.rect), img.shape) for face in raw_locations]
-
+hgb.,
 def main():
     detect = Dog_facial_recognition()
     detect.detection()
 
 if __name__ == '__main__':
     main()
-
