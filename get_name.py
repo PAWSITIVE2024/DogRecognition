@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 from pyzbar import pyzbar
 import firebase_admin
 from firebase_admin import credentials, db
@@ -9,6 +8,16 @@ class GetName():
         self.user_id = None
         self.Done = False
         self.capture = cv2.VideoCapture(0)
+
+        # Initialize VideoWriter to save video as qr_video.mp4
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        self.out = cv2.VideoWriter('qr_video.mp4', fourcc, 20.0, (640, 480))
+
+        # Initialize Firebase credentials and database reference
+        if not firebase_admin._apps:
+            self.cred = credentials.Certificate('library/doggy-dine-firebase-adminsdk-6tcsx-e66d564d1b.json')
+            firebase_admin.initialize_app(self.cred, {'databaseURL': "https://doggy-dine-default-rtdb.firebaseio.com/"})
+        self.doggydine_ref = db.reference('/DoggyDine/UserAccount')
 
     def decode_qr_code(self, frame):
         decoded_objects = pyzbar.decode(frame)
@@ -40,6 +49,7 @@ class GetName():
                 break
 
             frame = self.decode_qr_code(frame)
+            self.out.write(frame)  # Write the frame to the output video file
             cv2.imshow("QR Code Scanner", frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -48,13 +58,13 @@ class GetName():
                 break
 
         self.capture.release()
+        self.out.release()
         cv2.destroyAllWindows()
+
+        # Update Firebase if user_id is not None
         if self.user_id is not None:
-            if not firebase_admin._apps:
-                self.cred = credentials.Certificate('library/doggy-dine-firebase-adminsdk-6tcsx-e66d564d1b.json')
-                firebase_admin.initialize_app(self.cred, {'databaseURL': "https://doggy-dine-default-rtdb.firebaseio.com/"})
-            self.doggydine_ref = db.reference('/DoggyDine/UserAccount')
             self.doggydine_ref.child(f'{self.user_id}').update({'QR': True})
+
         return self.user_id
 
 def main():

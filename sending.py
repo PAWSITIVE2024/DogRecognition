@@ -24,8 +24,8 @@ class Sending:
         return blob.public_url
 
     def sending(self, detected_name):
-        file_path = 'images/result.jpg'
-        storage_file_path = f'{self.user_id}/profile/detected.png'
+        file_path = 'images/result1.jpg'
+        storage_file_path = f'{self.user_id}/detected.png'
         public_url = self.upload_image(file_path, storage_file_path)
         self.doggydine_ref.child(f'{self.user_id}').update({'profile': public_url})
         self.doggydine_ref.child(f'{self.user_id}').child('Detected').update({'Detected_name' : detected_name})
@@ -34,7 +34,7 @@ class Sending:
 
 def main():
     user_id = 'TDQvhGXWwQcsFWrJ0wmnTS38d602'
-    detected_name = '은총'
+    detected_name = '코코'
     sending_instance = Sending(user_id)
     sending_instance.sending(detected_name)
 

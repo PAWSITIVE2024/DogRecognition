@@ -84,7 +84,7 @@ class Dog_facial_recognition:
 
         raw_locations = _raw_face_locations(img, number_of_times_to_upsample)
         return [_trim_css_to_bounds(_rect_to_css(face.rect), img.shape) for face in raw_locations]
-hgb.,
+
 def main():
     detect = Dog_facial_recognition()
     detect.detection()
