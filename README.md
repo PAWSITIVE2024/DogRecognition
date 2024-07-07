@@ -53,10 +53,7 @@ known_face에 넣을 사진은 되도록이면 표정이 없는 정면 사진. �
   
 ![image](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/e7d7584d-d56c-45b9-a99e-fa861dd1420f)
 
-같은 종, 같은 색의 강아지라도 구별 가능.
-
-![image](https://github.com/PAWSITIVE2024/DogRecognition/assets/123616936/6e2e3205-0956-4eed-b73e-2b7cc8259f51)
-
+색등을 고려하는 딥러닝이 아니기 때문에 같은 종, 같은 색의 강아지라도 구별 가능.
 
     python run.py
 
