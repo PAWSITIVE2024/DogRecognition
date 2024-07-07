@@ -1,6 +1,3 @@
-<div align=center>
-  
-
 # 🐶강아지 얼굴 인식 및 구별
 
 **강아지 얼굴에서 특징점을 찾고 이를 기억해서 누가 누구인지 판단하는 알고리즘**
@@ -9,11 +6,13 @@
 
     pip install -r requirements.txt
 
+## For GUI
+
 Desktop Install
 
     sudo nano ~/.local/share/application/DoggyDine.desktop
 
-DoggyDine.desktop
+DoggyDine.desktop source.
     
     [Desktop Entry]
     Name=Doggy Dine
@@ -24,6 +23,11 @@ DoggyDine.desktop
     Type=Application
     Encoding=UTF-8
     Categories=None;
+
+![image](https://github.com/yunjiJ00/DogRecognition/assets/123616936/0eb93c8e-3868-4810-8cf9-5584c6c30962)
+
+
+## Dog Facial Recognition.
 
 원본 사진으로 진행시 GPU 8GB이상 필요
 
@@ -61,6 +65,7 @@ known_face에 넣을 사진은 되도록이면 표정이 없는 정면 사진. �
 전체적인 Flow Chart
 
 ![통신 (1)](https://github.com/yunjiJ00/dog_face_recognition/assets/123616936/4f89391e-0f0e-4d09-afb0-de9125fea470)
+
 
 
 
